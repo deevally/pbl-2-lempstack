@@ -90,6 +90,82 @@ server {
 
 - Save and Close. If you’re using nano, you can do so by typing CTRL+X and then y and ENTER to confirm.
 
+- Activate the configuration by linking to the config file from Nginx’s sites-enabled directory. Run:
+
+- __sudo__ ln -s /etc/nginx/sites-available/projectLEMP /etc/nginx/sites-enabled/
+
+- This will tell Nginx to use the configuration next time it is reloaded. You can test your configuration for syntax errors by typing:
+
+- __sudo__ nginx -t
+
+- If any errors are reported, go back to your configuration file to review its contents before continuing.
+
+- Disable default Nginx host that is currently configured to listen on port 80, for this run:
+
+- __sudo__ unlink /etc/nginx/sites-enabled/default
+
+- Reload NGINX 
+- __sudo__ systemctl reload nginx
+
+- The new website is now active, but the web root /var/www/projectLEMP is still empty. Create an index.html file in that location so that we can test that your new server block works as expected:
+
+```
+sudo echo 'Hello LEMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectLEMP/index.html
+```
+
+- Go to browser and type http://Public-DNS-Name:80 
+
+-  LEMP stack is now fully configured
+
+> Step 5
+
+- Testing PHP with Nginx
+
+- At this point,  LAMP stack is completely installed and fully operational. Test it to validate that Nginx can correctly hand .php files off to your PHP processor. Do this by creating a test PHP file in the document root. Open a new file called info.php within the document root in the text editor:
+
+- __sudo__ nano /var/www/projectLEMP/info.php
+- Paste the following PHP code
+```
+<?php
+phpinfo();
+```
+
+- Access the page on the web browser by typing http://`server_domain_or_IP`/info.php
+
+- ![](images/php.png)
+
+- After checking the relevant information about the PHP server through that page, it’s best to remove the file  created as it contains sensitive information about the PHP environment and the Ubuntu server. The file can always be generated later. Use rm to remove that file:
+
+- __sudo__ rm /var/www/your_domain/info.php
+
+
+> Step 6
+
+- Retrieving Data from MYSQL Database with PHP.
+
+- First, connect to the MySQL console using the root account:
+- __sudo__ mysql
+
+- Create a database and User.
+
+- CREATE DATABASE `demo_database`;
+- CREATE USER 'demo_user'@'%' IDENTIFIED WITH mysql_native_password BY '@password1';
+
+- NB: Specify own password.
+
+- Give the user permission over the database. 
+- GRANT ALL ON demo_database.* TO 'demo_user'@'%';
+
+- This will give the demo_user user full privileges over the demo_database database, while preventing this user from creating or modifying other databases on your server. Now exit the MySQL shell with: `exit`.
+
+- Check if the user has proper permissions and follow the prompt to input the password set for the user. The -p flag indicates user password.
+
+- mysql -u demo_user -p
+
+- Inside the MYSQL Shell, type `SHOW DATABASES;`  . The database will be outputed
+
+
+
 
 
 
